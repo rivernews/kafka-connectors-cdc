@@ -1,0 +1,41 @@
+version: 2.1
+
+orbs:
+  slack: circleci/slack@3.3.0
+
+# yaml basic and advance: https://circleci.com/docs/2.0/writing-yaml/#section=configuration
+jobs:
+  build:
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    environment:
+      IMAGE_NAME: shaungc/kafka-connectors-cdc
+    steps:
+      - checkout # retrieves the code from GitHub
+      # only run blocks below if you updated Dockerfile or terraform script in this repo
+      #
+      #
+      - setup_remote_docker # sets up a remote, isolated environment for each build. This is required before you use any docker command inside a job step.
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -f .dockerize/terraform-provisioner/Dockerfile -t $IMAGE_NAME:latest .
+      - run:
+          name: Push Docker Image
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker tag $IMAGE_NAME:latest $IMAGE_NAME:$CIRCLE_SHA1
+            docker push $IMAGE_NAME:latest
+            docker push $IMAGE_NAME:$CIRCLE_SHA1
+      - slack/status:
+          mentions: 'here,'
+          success_message: "*Build image Kafka Connect CDC Complete*\nThe image \"shaungc/kafkc-connect-cdc\" is ready to be used!\nThe version tag is `${CIRCLE_SHA1}`"
+
+
+workflows:
+  build-master:
+    jobs:
+      - build:
+        filters:
+            branches:
+              only: master
