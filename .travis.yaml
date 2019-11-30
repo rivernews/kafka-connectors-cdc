@@ -1,0 +1,34 @@
+language: minimal
+
+install: skip
+
+env:
+  - IMAGE_NAME=shaungc/kafka-connectors-cdc
+
+# stages build: https://docs.travis-ci.com/user/build-stages/#how-to-define-build-stages
+jobs:
+  include:
+    - stage: build
+      name: "Build docker image"
+      script: 
+        - docker build -f ./Dockerfile -t $c:latest .
+    - stage: push
+      name: "Docker login"
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - name: "Push docker image"
+      script:
+        - docker tag $IMAGE_NAME:latest $IMAGE_NAME:$TRAVIS_COMMIT
+        - docker push $IMAGE_NAME:latest
+        - docker push $IMAGE_NAME:$TRAVIS_COMMIT
+
+notifications:
+  slack:
+    on_start: always
+    on_success: always
+    on_failure: always
+    template:
+      - "*Kafka Connect CDC Build*"
+      - "Build result: %{result}"
+      - "%{repository_slug} (%{commit}) : %{message}"
+      - "Build details: %{build_url}"
