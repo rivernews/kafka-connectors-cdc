@@ -4,15 +4,17 @@ env:
 - IMAGE_NAME=shaungc/kafka-connectors-cdc
 jobs:
   include:
+  # stage can span across multiple name/script; each name/script (job) within a stage will be executed concurrently.
   - stage: build
     name: Build docker image
     script:
     - docker build -f ./Dockerfile -t $IMAGE_NAME:latest .
-  - stage: push
+  - stage: login
     name: Docker login
     script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - name: Push docker image
+  - stage: push
+    name: Push docker image
     script:
     - docker tag $IMAGE_NAME:latest $IMAGE_NAME:$TRAVIS_COMMIT
     - docker push $IMAGE_NAME:latest
