@@ -16,6 +16,10 @@ jobs:
       #
       #
       - setup_remote_docker # sets up a remote, isolated environment for each build. This is required before you use any docker command inside a job step.
+      - slack/notify:
+        color: '#42e2f4'
+        mentions: 'here,'
+        message: Setup docker build environment. Ready to build docker image.
       - run:
           name: Build Docker image
           command: |
