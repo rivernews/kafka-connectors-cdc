@@ -53,17 +53,14 @@ wait_till_es_connected ${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}
 
 
 wait_till_postgres_connected() {
-    SQL_HOST=${1:-"postgres"}
-    SQL_USER=${2:-"admin"}
-    SQL_DATABASE=${3:-"default_database"}
-    MAX_ATTEMPTS=${4:-999}
-    RETRY_INTERVAL=${5:-5}
+    MAX_ATTEMPTS=${1:-999}
+    RETRY_INTERVAL=${2:-5}
 
     ATTEMPTS=0
     # command based on https://stackoverflow.com/a/46862514/9814131
     # psql connection check based on https://stackoverflow.com/a/56589397/9814131
     # see all psql args: https://www.postgresql.org/docs/9.2/app-psql.html
-    until PGPASSWORD=$SQL_PASSWORD psql --host=$SQL_HOST --username=$SQL_USER --dbname=$SQL_DATABASE --command "SELECT 1" || [ $ATTEMPTS -eq $MAX_ATTEMPTS ]; do
+    until PGPASSWORD=${SQL_PASSWORD} psql --host=$SQL_HOST --username=$SQL_USER --dbname=$SQL_DATABASE --command "SELECT 1" || [ $ATTEMPTS -eq $MAX_ATTEMPTS ]; do
         ATTEMPTS=$((ATTEMPTS + 1))
         echo "WARNING: Cannot connect to ${SQL_HOST}, retrying in ${RETRY_INTERVAL} seconds...(${ATTEMPTS}/${MAX_ATTEMPTS})"
         sleep ${RETRY_INTERVAL}
@@ -84,7 +81,7 @@ echo ""
 echo "INFO: postgres host is ${SQL_HOST}"
 echo "INFO: postgres port is ${SQL_PORT}"
 echo "INFO: waiting for postgres to be ready..."
-wait_till_postgres_connected ${SQL_HOST} ${SQL_USER} ${SQL_DATABASE}
+wait_till_postgres_connected
 
 
 echo ""
