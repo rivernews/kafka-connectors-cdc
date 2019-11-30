@@ -11,7 +11,7 @@ jobs:
     - stage: build
       name: "Build docker image"
       script: 
-        - docker build -f ./Dockerfile -t $c:latest .
+        - docker build -f ./Dockerfile -t $IMAGE_NAME:latest .
     - stage: push
       name: "Docker login"
       script:
