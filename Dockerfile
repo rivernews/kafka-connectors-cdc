@@ -12,11 +12,15 @@ USER root
 
 
 # default environment variable values
+# bitnami env var configs:
+# https://github.com/bitnami/bitnami-docker-kafka#notable-changes
+#
 # https://vsupalov.com/docker-arg-env-variable-guide/#setting-env-values
 ENV KAFKA_HOME=/opt/bitnami/kafka
 ENV KAFKA_CONFIG="${KAFKA_HOME}/config"
 ENV KAFKA_CFG_PLUGIN_PATH="${KAFKA_HOME}/connectors"
 # ENV KAFKA_CFG_PLUGIN_PATH="${KAFKA_CONNECT_PLUGINS_DIR}"
+# ENV KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:8083 # setting this is entrypoint to grab host ip injected by kubernetes
 
 ENV KAFKA_HEAP_OPTS='-Xmx512m -Xms512m'
 # ENV HEAP_OPTS='-Xmx512m -Xms512m'

@@ -4,6 +4,8 @@ set -e
 # NOTICE: postgres slot name can only contain [a-z0-9_]: https://github.com/zalando/patroni/pull/277
 POSTGRES_DATABASE_LOGICAL_NAME=${POSTGRES_DATABASE_LOGICAL_NAME:-default}
 
+export KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://$KAFKA_CONNECT_SERVICE_SERVICE_HOST:${KAFKA_CONNECT_SERVICE_SERVICE_PORT:-8083}
+
 
 wait_till_es_connected() {
     URL=${1:-localhost}
