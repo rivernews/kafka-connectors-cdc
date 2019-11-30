@@ -10,7 +10,6 @@ jobs:
       - image: circleci/buildpack-deps:stretch
     environment:
       IMAGE_NAME: shaungc/kafka-connectors-cdc
-      GIT_COMMIT_MESSAGE: $(git log --format=%B -n 1 $CIRCLE_SHA1)
     steps:
       - checkout # retrieves the code from GitHub
       # only run blocks below if you updated Dockerfile or terraform script in this repo
@@ -30,7 +29,7 @@ jobs:
             docker push $IMAGE_NAME:$CIRCLE_SHA1
       - slack/status:
           mentions: 'here,'
-          success_message: "*Build image Kafka Connect CDC Complete*\nCommit message: $GIT_COMMIT_MESSAGE\n*The version tag is*: $CIRCLE_SHA1\nInstruction: The image \"shaungc/kafkc-connect-cdc\" is ready to be used! copy the version tag over to your deployment system (Terraform, etc).\nGithub repository: $CIRCLE_REPOSITORY_URL\nDockerhub link: https://hub.docker.com/repository/docker/shaungc/kafka-connectors-cdc"
+          success_message: "*Build image Kafka Connect CDC Complete*\n*The version tag is*: $CIRCLE_SHA1\nInstruction: The image \"shaungc/kafkc-connect-cdc\" is ready to be used! copy the version tag over to your deployment system (Terraform, etc).\nGithub repository: $CIRCLE_REPOSITORY_URL\nDockerhub link: https://hub.docker.com/repository/docker/shaungc/kafka-connectors-cdc"
             # *Build image Kafka Connect CDC Complete*
             # Commit message: $GIT_COMMIT_MESSAGE
             # *The version tag is*: $CIRCLE_SHA1
