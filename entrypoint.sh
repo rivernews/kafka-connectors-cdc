@@ -123,7 +123,7 @@ echo ""
 echo ""
 echo ""
 echo "INFO: configuring elasticsearch indices in 10 seconds..."
-# elasticsearch put index API: https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-templates.html
+# elasticsearch put index template API: https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-templates.html
 # use HERE document with curl, based on SO: https://stackoverflow.com/questions/34847981/curl-with-multiline-of-json
 # es date format: https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-date-format.html
 # 
@@ -145,6 +145,7 @@ echo "INFO: configuring elasticsearch indices in 10 seconds..."
 #
 # configure for datetime fields using dynamic template:  
 # https://github.com/confluentinc/kafka-connect-elasticsearch/issues/342#issuecomment-539034678
+# es doc on dynamic templates: https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html
 # "mappings": {
 #     "dynamic_templates": [
 #         {
