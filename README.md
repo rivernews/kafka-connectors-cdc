@@ -4,7 +4,7 @@
 
 Kafka connect image that includes Debezium postgres source connector and Elasticsearch sink connector.
 
-This image is built based on [Bitnami Kafka Docker Image](https://hub.docker.com/r/bitnami/kafka).
+This image is built based on [Bitnami Kafka Docker Image](https://hub.docker.com/r/bitnami/kafka). You can [go to the Dockerhub page of this image](https://hub.docker.com/repository/docker/shaungc/kafka-connectors-cdc).
 
 ## Configuration
 
