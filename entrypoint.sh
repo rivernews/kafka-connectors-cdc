@@ -141,6 +141,7 @@ echo "INFO: configuring elasticsearch indices in 10 seconds..."
 # }
 #
 # working example:
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-field-mapping.html#_customising_detected_date_formats
 # "mappings": {
 #     "dynamic_date_formats": ["strict_date_time"]
 # }
