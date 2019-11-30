@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  slack: circleci/slack@3.3.0
+  slack: circleci/slack@3.4.1
 
 # yaml basic and advance: https://circleci.com/docs/2.0/writing-yaml/#section=configuration
 jobs:
@@ -19,7 +19,7 @@ jobs:
       - slack/notify:
         color: '#42e2f4'
         mentions: 'here,'
-        message: Setup docker build environment. Ready to build docker image.
+        message: 'Setup docker build environment. Ready to build docker image.'
       - run:
           name: Build Docker image
           command: |
