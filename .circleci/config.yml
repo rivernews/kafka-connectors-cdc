@@ -10,7 +10,7 @@ jobs:
       - image: circleci/buildpack-deps:stretch
     environment:
       IMAGE_NAME: shaungc/kafka-connectors-cdc
-      GIT_COMMIT_MESSAGE: git log --format=%B -n 1 $CIRCLE_SHA1
+      GIT_COMMIT_MESSAGE: $(git log --format=%B -n 1 $CIRCLE_SHA1)
     steps:
       - checkout # retrieves the code from GitHub
       # only run blocks below if you updated Dockerfile or terraform script in this repo
