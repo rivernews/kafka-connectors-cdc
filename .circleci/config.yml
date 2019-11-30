@@ -29,7 +29,7 @@ jobs:
             docker push $IMAGE_NAME:$CIRCLE_SHA1
       - slack/status:
           mentions: 'here,'
-          success_message: "*Build image Kafka Connect CDC Complete*\nThe image \"shaungc/kafkc-connect-cdc\" is ready to be used!\nThe version tag is $CIRCLE_SHA1, copy this over to your deployment system (Terraform, etc).\n[Github Repository Link](https://github.com/rivernews/kafka-connectors-cdc)\n[Dockerhub Link](https://hub.docker.com/repository/docker/shaungc/kafka-connectors-cdc)"
+          success_message: "*Build image Kafka Connect CDC Complete*\nThe image \"shaungc/kafkc-connect-cdc\" is ready to be used!\nThe version tag is `$CIRCLE_SHA1`:\n$CIRCLE_SHA1\nCopy this over to your deployment system (Terraform, etc).\n[Github Repository Link](https://github.com/rivernews/kafka-connectors-cdc)\n[Dockerhub Link](https://hub.docker.com/repository/docker/shaungc/kafka-connectors-cdc)"
 
 
 workflows:
