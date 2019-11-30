@@ -5,17 +5,11 @@ env:
 jobs:
   include:
   # stage can span across multiple name/script; each name/script (job) within a stage will be executed concurrently.
-  - stage: build
-    name: Build docker image
+  - stage: build_push
+    name: Build and push docker image
     script:
     - docker build -f ./Dockerfile -t $IMAGE_NAME:latest .
-  - stage: login
-    name: Docker login
-    script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - stage: push
-    name: Push docker image
-    script:
     - docker tag $IMAGE_NAME:latest $IMAGE_NAME:$TRAVIS_COMMIT
     - docker push $IMAGE_NAME:latest
     - docker push $IMAGE_NAME:$TRAVIS_COMMIT
@@ -27,6 +21,8 @@ notifications:
     rooms:
       secure: IxTr5+m5sjqaoLF9GjGZT3f3Pf+d6lC42ghqFbnB4wG1w+RcKV4qFAroctTlnLmgibNNFy44exnL8cGUBDgRyF2I5Avz91nzuq8TrwtJVatAmCwF7ZxkAY2/TPkk9UpwuAUIMSEKxbIk1IUfMiCTIsUYx1aNb4ai42GkRp0puVAl2Ze5+5REJPaLj7OiXRUvKCsW+vZqdwwfew68WDjC+IL1FwZMg1keHZo8Ir1SAeqPbC2kIBCtQpp4drbw5+62FbFr5b82hsUz+bIuZ0bIdc5Q0OpU/wejygmC9iyLKZjFNeNKkWQIVbUlBE0cyPcgwQiW1Mk1R5PFXzWt0FhKj1/Q01iLL3QcHEOAyfmlSme+NRTBxP7qpVGqjPqKf97pMxNcJaL2jFuGBDET7Xf5KbFnMgJMYVT63AsyiU4tY/3G/8rF49Y0Le6N7lDiOKVBnz52Ru7KGzJcs8QHgz+UGX4qxKemN1yGpty0wE9WZoUKypIcXbRlVCPamhbZeFiBaaeUVxSPcN/0cObdEFS4Swi/pEJ7H9u7AALqoooFvGIA+UTUeSCYxzZO++5x0THLKDt18F5ShL0tgwAScg38VilIQoOFsC2GGBzb9TQNl7I4bm+nyVBoWKkXVUCgZC6n/gA5b5wjObB4pJX7BQXTDQ9nXvHN2IhwE/S8V6q5bQw=
     on_start: always
+    on_success: always
+    on_failure: always
     # config vars available: https://docs.travis-ci.com/user/notifications/#configuring-slack-notifications
     template:
     - "*%{repository_slug}: %{message}*"
