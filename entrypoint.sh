@@ -89,6 +89,7 @@ echo ""
 echo ""
 echo "INFO: installing  connectors..."
 cd /tmp
+mkdir -p $KAFKA_CFG_PLUGIN_PATH
 
 curl -sO  https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/0.10.0.Final/debezium-connector-postgres-0.10.0.Final-plugin.tar.gz &&\
 tar xf debezium-connector-postgres-0.10.0.Final-plugin.tar.gz --directory $KAFKA_CFG_PLUGIN_PATH
