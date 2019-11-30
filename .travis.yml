@@ -26,7 +26,7 @@ notifications:
     # config vars available: https://docs.travis-ci.com/user/notifications/#configuring-slack-notifications
     template:
     - "*%{repository_slug}: %{message}*"
-    - 'Commit: %{commit_message}'
+    - '*Git commit:* %{commit_message}'
     - 'Build result: %{result} in %{duration}'
-    - 'Docker image tag: %{commit}'
+    - 'Docker image tag: `%{commit}`'
     - 'Build details: %{build_url}'
