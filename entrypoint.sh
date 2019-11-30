@@ -135,6 +135,23 @@ echo "INFO: configuring elasticsearch indices in 10 seconds..."
 #         }
 #     }
 # }
+#
+# configure for datetime fields using dynamic template:  
+# https://github.com/confluentinc/kafka-connect-elasticsearch/issues/342#issuecomment-539034678
+# "mappings": {
+#     "dynamic_templates": [
+#         {
+#             "patch_datetime_fields_template": {
+#                 "match_pattern": "regex",
+#                 "match": "^(created_at|modified_at)$",
+#                 "mapping": {
+#                     "type": "date",
+#                     "dynamic_date_formats": ["strict_date_time"]
+#                 }
+#             }
+#         }
+#     ]
+# }
 sleep 10
 curl --silent -XPUT -H 'Content-Type: application/json' http://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}/_template/appl_tracky_template --data-binary @- << EOF 
 {
@@ -145,18 +162,7 @@ curl --silent -XPUT -H 'Content-Type: application/json' http://${ELASTICSEARCH_H
         }
     },
     "mappings": {
-        "dynamic_templates": [
-            {
-                "patch_datetime_fields_template": {
-                    "match_pattern": "regex",
-                    "match": "^(created_at|modified_at)$",
-                    "mapping": {
-                        "type": "date",
-                        "dynamic_date_formats": ["strict_date_time"]
-                    }
-                }
-            }
-        ]
+        "dynamic_date_formats": ["strict_date_time"]
     }
 }
 EOF
