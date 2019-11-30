@@ -59,8 +59,9 @@ wait_till_postgres_connected() {
 
     ATTEMPTS=0
     # command based on https://stackoverflow.com/a/46862514/9814131
+    # psql connection check based on https://stackoverflow.com/a/56589397/9814131
     # see all psql args: https://www.postgresql.org/docs/9.2/app-psql.html
-    until psql --host=$SQL_HOST --username=$SQL_USER --dbname=$SQL_DATABASE --password &>/dev/null || [ $ATTEMPTS -eq $MAX_ATTEMPTS ]; do
+    until PGPASSWORD=$SQL_PASSWORD psql --host=$SQL_HOST --username=$SQL_USER --dbname=$SQL_DATABASE --command "SELECT 1" || [ $ATTEMPTS -eq $MAX_ATTEMPTS ]; do
         ATTEMPTS=$((ATTEMPTS + 1))
         echo "WARNING: Cannot connect to ${SQL_HOST}, retrying in ${RETRY_INTERVAL} seconds...(${ATTEMPTS}/${MAX_ATTEMPTS})"
         sleep ${RETRY_INTERVAL}
@@ -127,7 +128,7 @@ echo "INFO: configuring elasticsearch indices in 10 seconds..."
 # es date format: https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-date-format.html
 # 
 # adding mappings
-# notice: if you want to specify the mapping name `mappings: { "my_mapping_name" ... }`, please make sure `my_mapping_name` mapping is already created, otherwise you could get parse error in elasticsearch.
+# notice: if you want to specify the mapping name `mappings: { "my_mapping_name" ... }`, please make sure `my_mapping_name` mapping is already created, otherwise you could get parse error in elasticsearch (or use the dynamic template spec below).
 # "mappings": {
 #     "properties": {
 #         "created_at": {
@@ -135,6 +136,11 @@ echo "INFO: configuring elasticsearch indices in 10 seconds..."
 #             "format": "strict_date_time"
 #         }
 #     }
+# }
+#
+# working example:
+# "mappings": {
+#     "dynamic_date_formats": ["strict_date_time"]
 # }
 #
 # configure for datetime fields using dynamic template:  
@@ -147,7 +153,7 @@ echo "INFO: configuring elasticsearch indices in 10 seconds..."
 #                 "match": "^(created_at|modified_at)$",
 #                 "mapping": {
 #                     "type": "date",
-#                     "dynamic_date_formats": ["strict_date_time"]
+#                     "format": "strict_date_time"
 #                 }
 #             }
 #         }
