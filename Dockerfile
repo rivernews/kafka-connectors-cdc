@@ -22,8 +22,6 @@ ENV KAFKA_CONFIG="${KAFKA_HOME}/config"
 ENV KAFKA_CFG_PLUGIN_PATH="${KAFKA_HOME}/connectors"
 # ENV KAFKA_CFG_PLUGIN_PATH="${KAFKA_CONNECT_PLUGINS_DIR}"
 
-ENV KAFKA_CONNECT_ES_DIR=$KAFKA_CFG_PLUGIN_PATH/kafka-connect-elasticsearch
-ENV KAFKA_CONNECT_POSTGRES_DIR=$KAFKA_CFG_PLUGIN_PATH/kafka-connect-postgres
 
 # default ENV values: https://vsupalov.com/docker-arg-env-variable-guide/#setting-env-values
 ENV KAFKA_HEAP_OPTS='-Xmx512m -Xms512m'

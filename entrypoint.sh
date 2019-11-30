@@ -91,16 +91,10 @@ echo "INFO: installing  connectors..."
 cd /tmp
 
 curl -sO  https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/0.10.0.Final/debezium-connector-postgres-0.10.0.Final-plugin.tar.gz &&\
-tar xf debezium-connector-postgres-0.10.0.Final-plugin.tar.gz --directory /tmp
-sleep 5
-mkdir -p $KAFKA_CONNECT_POSTGRES_DIR
-mv /tmp/debezium-connector-postgres $KAFKA_CONNECT_POSTGRES_DIR
+tar xf debezium-connector-postgres-0.10.0.Final-plugin.tar.gz --directory $KAFKA_CFG_PLUGIN_PATH
 
 curl -sO  https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-elasticsearch/versions/5.3.1/confluentinc-kafka-connect-elasticsearch-5.3.1.zip &&\
-unzip confluentinc-kafka-connect-elasticsearch-5.3.1.zip -d /tmp
-sleep 5
-mkdir -p $KAFKA_CONNECT_ES_DIR
-mv /tmp/confluentinc-kafka-connect-elasticsearch-5.3.1 $KAFKA_CONNECT_ES_DIR
+unzip confluentinc-kafka-connect-elasticsearch-5.3.1.zip -d $KAFKA_CFG_PLUGIN_PATH
 
 
 echo ""
