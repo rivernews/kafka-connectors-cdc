@@ -22,11 +22,12 @@ jobs:
         - docker push $IMAGE_NAME:latest
         - docker push $IMAGE_NAME:$TRAVIS_COMMIT
 
+# configure slack notification: https://docs.travis-ci.com/user/notifications/#configuring-slack-notifications
 notifications:
   slack:
+    rooms:
+      - 123:123
     on_start: always
-    on_success: always
-    on_failure: always
     template:
       - "*Kafka Connect CDC Build*"
       - "Build result: %{result}"
